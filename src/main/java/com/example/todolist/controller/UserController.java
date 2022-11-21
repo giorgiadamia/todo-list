@@ -2,6 +2,7 @@ package com.example.todolist.controller;
 
 import com.example.todolist.entity.UserEntity;
 import com.example.todolist.exception.UserAlreadyExistException;
+import com.example.todolist.exception.UserNotFoundException;
 import com.example.todolist.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,12 +30,13 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity getUser() {
+    public ResponseEntity getOneUser(@RequestParam Long id) { // query param
         try {
-            return ResponseEntity.ok("server");
+            return ResponseEntity.ok(userService.getOne(id));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            ResponseEntity.badRequest().body("error");
+            return ResponseEntity.badRequest().body("error");
         }
-        return null;
     }
 }

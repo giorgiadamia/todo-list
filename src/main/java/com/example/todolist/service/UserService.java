@@ -18,6 +18,7 @@ public class UserService {
         this.userRepo = userRepo;
     }
 
+    // POST request
     public void registration(UserEntity userEntity) throws UserAlreadyExistException {
         if (userRepo.findByUsername(userEntity.getUsername()) != null) {
             throw new UserAlreadyExistException("User already exist");
@@ -25,12 +26,32 @@ public class UserService {
         userRepo.save(userEntity);
     }
 
+    // GET requests
     public User getOne(Long id) throws UserNotFoundException {
         Optional isUser = userRepo.findById(id);
         if (isUser.isEmpty()) { // check if exist
-            throw new UserNotFoundException("No such user");
+            throw new UserNotFoundException("No user with such id");
         }
         UserEntity user = (UserEntity) isUser.get();
         return User.toModel(user);
+    }
+
+    public User getByUsername(String username) throws UserNotFoundException {
+        UserEntity user = userRepo.findByUsername(username);
+        if (user == null) { // check if exist
+            throw new UserNotFoundException("No user with such username");
+        }
+        return User.toModel(user);
+    }
+
+    // DELETE requests
+    public Long deleteOne(Long id) {
+        userRepo.deleteById(id);
+        return id;
+    }
+
+    public String deleteUsername(String username) {
+        userRepo.deleteByUsername(username);
+        return username;
     }
 }

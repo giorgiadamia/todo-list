@@ -1,7 +1,8 @@
 package com.example.todolist.controller;
 
 import com.example.todolist.entity.UserEntity;
-import com.example.todolist.repository.UserRepo;
+import com.example.todolist.exception.UserAlreadyExistException;
+import com.example.todolist.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,20 +10,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserRepo userRepo;
+    private final UserService userService;
 
-    public UserController(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping
     public ResponseEntity registration(@RequestBody UserEntity userEntity) {
         try {
-            if (userRepo.findByUsername(userEntity.getUsername()) != null) {
-                return ResponseEntity.badRequest().body("User with such a name already exist");
-            }
-            userRepo.save(userEntity);
+            userService.registration(userEntity);
             return ResponseEntity.ok("It's done!");
+        } catch (UserAlreadyExistException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("error");
         }

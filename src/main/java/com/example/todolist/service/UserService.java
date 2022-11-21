@@ -3,6 +3,7 @@ package com.example.todolist.service;
 import com.example.todolist.entity.UserEntity;
 import com.example.todolist.exception.UserAlreadyExistException;
 import com.example.todolist.exception.UserNotFoundException;
+import com.example.todolist.model.User;
 import com.example.todolist.repository.UserRepo;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +25,12 @@ public class UserService {
         userRepo.save(userEntity);
     }
 
-    public UserEntity getOne(Long id) throws UserNotFoundException {
-        Optional user = userRepo.findById(id);
-        if (user.isEmpty()) {
+    public User getOne(Long id) throws UserNotFoundException {
+        Optional isUser = userRepo.findById(id);
+        if (isUser.isEmpty()) { // check if exist
             throw new UserNotFoundException("No such user");
         }
-        return (UserEntity) user.get();
+        UserEntity user = (UserEntity) isUser.get();
+        return User.toModel(user);
     }
 }

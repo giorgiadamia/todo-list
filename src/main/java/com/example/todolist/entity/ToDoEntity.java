@@ -9,7 +9,9 @@ public class ToDoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private Boolean isCompleted;
+
+    @Column(columnDefinition = "boolean default false")
+    private Boolean isCompleted = false;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

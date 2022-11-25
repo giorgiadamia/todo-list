@@ -3,12 +3,14 @@ package com.example.todolist.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "todo")
 public class ToDoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    private String description;
 
     @Column(columnDefinition = "boolean default false")
     private Boolean isCompleted = false;
@@ -18,6 +20,14 @@ public class ToDoEntity {
     private UserEntity user;
 
     public ToDoEntity() {
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Long getId() {

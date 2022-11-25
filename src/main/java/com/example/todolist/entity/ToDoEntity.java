@@ -9,7 +9,7 @@ public class ToDoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private boolean isCompleted;
+    private Boolean isCompleted;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -34,11 +34,11 @@ public class ToDoEntity {
         this.title = title;
     }
 
-    public boolean isCompleted() {
+    public Boolean getCompleted() {
         return isCompleted;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setCompleted(Boolean completed) {
         isCompleted = completed;
     }
 

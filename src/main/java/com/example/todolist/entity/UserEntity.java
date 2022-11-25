@@ -18,6 +18,14 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public List<ToDoEntity> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<ToDoEntity> tasks) {
+        this.tasks = tasks;
+    }
+
     public Long getId() {
         return id;
     }
